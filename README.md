@@ -2,6 +2,9 @@
 
 Dockerfile started via https://docs.docker.com/guides/nodejs/containerize/
 
+## Requirements
+You need a working Docker-compose or Podman-compose installation.
+
 ## How to run
 Docker
 ```
