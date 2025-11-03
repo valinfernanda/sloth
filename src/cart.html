@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warenkorb - Tiergarten Schönbrunn</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background: #f5f5f5; color: #333; line-height: 1.5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { background: #f9f5e8; padding: 15px 0; border-bottom: 1px solid #e0e0e0; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 50px; margin-right: 10px; }
+        .logo span { font-size: 18px; font-weight: bold; color: #5d4037; }
+        .search-bar { flex: 1; margin: 0 20px; position: relative; }
+        .search-bar input { width: 100%; padding: 8px 30px 8px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .search-bar::after { content: 'Search'; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #999; }
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .lang-select { font-size: 14px; color: #5d4037; }
+        .cart-info { background: #fff; padding: 5px 10px; border-radius: 4px; font-size: 14px; color: #5d4037; }
+        .login-btn { background: #6d4c41; color: white; border: none; padding: 8px 15px; border-radius: 4px; font-size: 14px; cursor: pointer; }
+        nav { background: #fff; padding: 10px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .nav-links { display: flex; gap: 20px; font-size: 14px; }
+        .nav-links a { color: #5d4037; text-decoration: none; }
+        .nav-links a:hover { text-decoration: underline; }
+
+        main { padding: 30px 0; }
+        .breadcrumb { margin-bottom: 20px; font-size: 14px; color: #6d4c41; }
+        .breadcrumb a { color: #6d4c41; text-decoration: none; }
+        .cart-table { width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 20px; }
+        .cart-table th { background: #f0f0f0; text-align: left; padding: 12px; font-weight: normal; font-size: 14px; color: #555; border-bottom: 1px solid #ddd; }
+        .cart-table td { padding: 15px 12px; border-bottom: 1px solid #eee; vertical-align: middle; font-size: 14px; }
+        .delete-btn { background: #d32f2f; color: white; border: none; padding: 5px 8px; border-radius: 3px; cursor: pointer; font-size: 12px; }
+        .delete-btn:hover { background: #b71c1c; }
+        .item-img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 10px; vertical-align: middle; }
+        .item-description { display: inline-block; vertical-align: middle; }
+        .item-title { font-weight: bold; margin-bottom: 3px; }
+        .item-details { font-size: 12px; color: #777; }
+        .price { white-space: nowrap; }
+        .quantity { text-align: center; }
+        .total-row { font-weight: bold; background: #f9f5e8; }
+        .vat-row td { font-size: 12px; color: #777; padding: 5px 0 10px; }
+        .summary { text-align: right; margin: 20px 0; font-size: 18px; font-weight: bold; }
+        .continue-btn { background: #6d4c41; color: white; border: none; padding: 12px 25px; border-radius: 4px; font-size: 16px; cursor: pointer; float: right; }
+        .notice { background: #fff8e1; padding: 15px; border-radius: 4px; margin: 20px 0; font-size: 14px; color: #5d4037; }
+
+        footer { background: #f9f5e8; padding: 30px 0; font-size: 12px; color: #666; border-top: 1px solid #e0e0e0; }
+        .footer-columns { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .footer-column { flex: 1; min-width: 160px; }
+        .footer-column h4 { margin-bottom: 10px; color: #5d4037; font-size: 13px; font-weight: bold; }
+        .footer-column ul { list-style: none; }
+        .footer-column ul li { margin-bottom: 5px; }
+        .footer-column ul li a { color: #666; text-decoration: none; }
+        .footer-column ul li a:hover { text-decoration: underline; }
+        .payment-logos { margin-top: 20px; text-align: right; }
+        .payment-logos img { height: 25px; margin-left: 8px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <img src="assets/images/photos/logozoo1.png" 
+             alt="Zoo Vienna Logo" 
+             style="height: 120px; width: auto; margin-right: 10px;">
+                <div class="search-bar">
+                    <input type="text" placeholder="Suche - stätet mit mindestens 3 Zeichen...">
+                </div>
+                <div class="header-right">
+                    <div class="lang-select">DE | EN</div>
+                    <div class="cart-info" id="cart-info">0 Artikel 0,00 €</div>
+                    <button class="login-btn">Anmelden</button>
+                </div>
+            </div>
+            <br>
+            <nav>
+                <div class="nav-links">
+                    <br>
+                    <a href="product.html">Voucher</a>
+                    <a href="#">Print@Home</a>
+                    <a href="#">Zoo gifts</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <div class="breadcrumb">
+                <a href="product.html">Back to shopping</a>
+            </div>
+
+            <table class="cart-table" id="cart-table">
+                <thead>
+                    <tr>
+                        <th>Löschen</th>
+                        <th>Artikel</th>
+                        <th>Versandart</th>
+                        <th>Stückpreis</th>
+                        <th>Menge</th>
+                        <th>Summe</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items">
+                    <!-- JS isi -->
+                </tbody>
+            </table>
+
+            <div class="summary">
+                Gesamtsumme: <strong id="summary-total">0,00 €</strong>
+            </div>
+
+            <button class="continue-btn">weiter</button>
+
+            <div class="notice">
+                Bitte überprüfen Sie Ihre ausgewählten Artikel!
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h4>SHOP</h4>
+                    <ul>
+                        <li><a href="#">Onlineshop</a></li>
+                        <li><a href="#">Stempel</a></li>
+                        <li><a href="#">Tiergarten Schönbrunn</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>SERVICE</h4>
+                    <ul>
+                        <li><a href="#">Konto verwalten</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>INFORMATION</h4>
+                    <ul>
+                        <li><a href="#">Impressum</a></li>
+                        <li><a href="#">Datenschutz</a></li>
+                        <li><a href="#">AGB</a></li>
+                        <li><a href="#">Widerrufsbelehrung</a></li>
+                        <li><a href="#">Barrierefreiheit</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>KONTAKT</h4>
+                    <div style="display:flex; align-items:flex-start; gap:10px; margin-top:10px;">
+                        <div style="font-size:18px; color:#ff9800;">Phone</div>
+                        <div>
+                            <div>Mo - Fr 9:00 - 17:00</div>
+                            <div>+43 1 87904 0</div>
+                            <div><a href="mailto:shop@zoovienna.at">shop@zoovienna.at</a></div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        Maxingstraße 13b, 1130 Wien
+                    </div>
+                </div>
+            </div>
+            <div class="payment-logos">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" style="height:20px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png" alt="Mastercard" style="height:30px;">
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    function renderCart() {
+        const cart = JSON.parse(localStorage.getItem('zoo_cart') || '[]');
+        const tbody = document.getElementById('cart-items');
+        tbody.innerHTML = '';
+
+        let total = 0;
+        let itemCount = 0;
+
+        cart.forEach((item, i) => {
+            const subtotal = item.price * item.quantity;
+            total += subtotal;
+            itemCount += item.quantity;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><button class="delete-btn" onclick="removeItem(${i})">Löschen</button></td>
+                <td>
+                    <img src="https://via.placeholder.com/50x50/${item.price > 50 ? '90be6d' : '4caf50'}/ffffff?text=Ticket" alt="Ticket" class="item-img">
+                    <div class="item-description">
+                        <div class="item-title">${item.title}</div>
+                        <div class="item-details">${item.subtitle}</div>
+                    </div>
+                </td>
+                <td>${item.shipping}</td>
+                <td class="price">${item.price.toFixed(2).replace('.', ',')} €</td>
+                <td class="quantity">${item.quantity}</td>
+                <td class="price">${subtotal.toFixed(2).replace('.', ',')} €</td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        if (cart.length > 0) {
+            const vatRow = document.createElement('tr');
+            vatRow.className = 'vat-row';
+            vatRow.innerHTML = `<td colspan="6">Enthaltenes MwSt. 13 %</td>`;
+            tbody.appendChild(vatRow);
+
+            const totalRow = document.createElement('tr');
+            totalRow.className = 'total-row';
+            totalRow.innerHTML = `
+                <td colspan="5" style="text-align: right; padding-right: 20px;">Gesamtsumme</td>
+                <td class="price">${total.toFixed(2).replace('.', ',')} €</td>
+            `;
+            tbody.appendChild(totalRow);
+        }
+
+        document.getElementById('summary-total').textContent = `${total.toFixed(2).replace('.', ',')} €`;
+        document.getElementById('cart-info').textContent = `${itemCount} Artikel ${total.toFixed(2).replace('.', ',')} €`;
+    }
+
+    function removeItem(i) {
+        let cart = JSON.parse(localStorage.getItem('zoo_cart') || '[]');
+        cart.splice(i, 1);
+        localStorage.setItem('zoo_cart', JSON.stringify(cart));
+        renderCart();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCart();
+
+        // Tambahkan tombol reset
+        const headerRight = document.querySelector('.header-right');
+        const resetBtn = document.createElement('button');
+        resetBtn.textContent = 'Reset';
+        resetBtn.style.marginLeft = '10px';
+        resetBtn.style.padding = '5px 8px';
+        resetBtn.style.fontSize = '12px';
+        resetBtn.style.background = '#d32f2f';
+        resetBtn.style.color = 'white';
+        resetBtn.style.border = 'none';
+        resetBtn.style.borderRadius = '4px';
+        resetBtn.style.cursor = 'pointer';
+        resetBtn.onclick = () => {
+            if (confirm('Hapus semua keranjang?')) {
+                localStorage.removeItem('zoo_cart');
+                renderCart();
+                alert('Keranjang direset!');
+            }
+        };
+        headerRight.appendChild(resetBtn);
+    });
+</script>
+</body>
+</html>
