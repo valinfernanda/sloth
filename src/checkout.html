@@ -6,13 +6,8 @@
 <title>Checkout – Kartendaten</title>
 <style>
   :root{
-    --bg:#eef6fb;
-    --card:#ffffff;
-    --text:#0f1724;
-    --muted:#64748b;
-    --accent:#0b69a3;
-    --border:#e6eef6;
-    --shadow: 0 12px 30px rgba(6,21,45,0.08);
+    --bg:#eef6fb; --card:#ffffff; --text:#0f1724; --muted:#64748b;
+    --accent:#0b69a3; --border:#e6eef6; --shadow: 0 12px 30px rgba(6,21,45,0.08);
     --radius:14px;
   }
   *{box-sizing:border-box}
@@ -51,6 +46,7 @@
   .card-visual{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:linear-gradient(90deg,#082b47 0%, #0b69a3 100%);color:#fff}
   .card-visual .chip{width:34px;height:24px;border-radius:4px;background:#f8e9c2}
   .footer-small{font-size:12px;color:#94a3b8;text-align:center;margin-top:10px}
+  .small-note{font-size:12px;color:#7b8794;margin-top:8px;text-align:center}
 </style>
 </head>
 <body>
@@ -62,50 +58,28 @@
         <div class="row inline">
           <div class="field">
             <label for="card-number">Kartennummer</label>
-            <input id="card-number" name="card-number" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number" />
-            <p class="helper">Bitte eine gültige Kartennummer eingeben.</p>
+            <input id="card-number" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" maxlength="19"/>
+            <p class="helper" id="card-number-help">Bitte eine gültige Kartennummer eingeben.</p>
           </div>
-
           <div class="field">
             <label for="exp">Ablauf</label>
-            <input id="exp" name="exp" type="text" inputmode="numeric" placeholder="MM/YY" maxlength="5" autocomplete="cc-exp" />
-            <p class="helper">Ungültiges Datum.</p>
+            <input id="exp" type="text" inputmode="numeric" placeholder="MM/YY" maxlength="5"/>
+            <p class="helper" id="exp-help">Ungültiges Datum.</p>
           </div>
-
           <div class="field">
             <label for="cvc">CVC</label>
-            <input id="cvc" name="cvc" type="text" inputmode="numeric" placeholder="CVC" maxlength="4" autocomplete="cc-csc" />
-            <p class="helper">3–4 Ziffern erforderlich.</p>
+            <input id="cvc" type="text" inputmode="numeric" placeholder="CVC" maxlength="4"/>
+            <p class="helper" id="cvc-help">3–4 Ziffern erforderlich.</p>
           </div>
         </div>
-
-        <div style="margin-top:12px" class="field">
+        <div class="field">
           <label for="holder">Name auf der Karte</label>
-          <input id="holder" name="holder" type="text" placeholder="Max Mustermann" autocomplete="cc-name" />
-          <p class="helper">Bitte den Namen wie auf der Karte angeben.</p>
+          <input id="holder" type="text" placeholder="Max Mustermann"/>
+          <p class="helper" id="holder-help">Bitte den Namen wie auf der Karte angeben.</p>
         </div>
-
-        <button class="btn" type="submit">Bezahlen — € <span id="pay-amt">0.00</span></button>
+        <button class="btn" id="pay-btn" type="submit">Bezahlen — € <span id="pay-amt">0.00</span></button>
+        <div class="small-note">Demo: hanya last 4, nama pemegang, dan jumlah yang dikirim lewat email. Jangan kirim nomor penuh/CVC.</div>
       </form>
-
-      <div class="meta" aria-hidden="true">
-        <div class="brand" title="Mastercard">
-          <svg viewBox="0 0 48 30" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="18" cy="15" r="10" fill="#EA001B"/>
-            <circle cx="30" cy="15" r="10" fill="#FF5F00" fill-opacity=".95"/>
-          </svg>
-          Mastercard
-        </div>
-
-        <div class="brand" title="Visa">
-          <svg viewBox="0 0 48 30" xmlns="http://www.w3.org/2000/svg">
-            <rect x="0" y="0" width="48" height="30" fill="none"/>
-            <path d="M6 8h36v14H6z" fill="#1a1f71"/>
-            <text x="12" y="20" font-family="Arial" font-weight="700" font-size="10" fill="#fff">VISA</text>
-          </svg>
-          VISA
-        </div>
-      </div>
     </div>
 
     <aside class="right">
@@ -131,7 +105,7 @@
             <div id="summary-date" style="font-weight:600">—</div>
           </div>
         </div>
-        <div class="footer-small">Sichere Verbindung</div>
+        <div class="footer-small">Sichere Verbindung · Demo</div>
       </div>
     </aside>
   </div>
@@ -145,7 +119,11 @@ const card = el('card-number');
 const exp = el('exp');
 const cvc = el('cvc');
 const holder = el('holder');
-const payAmt = el('pay-amt');
+const payAmtSpan = el('pay-amt');
+
+// ambil total dari session/cart
+const cartTotal = sessionStorage.getItem('cartTotal') || '0.00';
+payAmtSpan.textContent = Number(cartTotal).toFixed(2);
 
 function updateSummaryCard(){
   const last4 = numOnly(card.value).slice(-4) || '----';
@@ -158,66 +136,45 @@ function updateSummaryName(){
   el('summary-name').textContent = holder.value.trim() || '—';
 }
 
-// inisialisasi summary
 updateSummaryCard();
 updateSummaryName();
+el('summary-date').textContent = new Date().toLocaleString('de-DE');
 
-// ambil total dari cart sebelumnya
-const cartTotal = sessionStorage.getItem('cartTotal') || '0.00';
-payAmt.textContent = Number(cartTotal).toFixed(2);
+card.addEventListener('input', ()=>{ let v=numOnly(card.value).slice(0,16); card.value=v.replace(/(.{4})/g,'$1 ').trim(); card.classList.toggle('invalid',v.length<13); updateSummaryCard(); });
+holder.addEventListener('input',()=>{ updateSummaryName(); holder.classList.toggle('invalid',holder.value.trim().length<2); });
+exp.addEventListener('input',()=>{ let v=numOnly(exp.value).slice(0,4); if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2); exp.value=v; const parts=v.split('/'); let ok=false;if(parts.length===2){const mm=parseInt(parts[0],10); const yy=parseInt(parts[1],10); ok=mm>=1&&mm<=12&&!Number.isNaN(yy);} exp.classList.toggle('invalid',!ok); });
+cvc.addEventListener('input',()=>{ cvc.value=numOnly(cvc.value).slice(0,4); cvc.classList.toggle('invalid',cvc.value.length<3); });
 
-document.getElementById('summary-date').textContent = new Date().toLocaleString('de-DE');
-
-card.addEventListener('input', () => {
-  // Ambil hanya angka
-  let v = numOnly(card.value).slice(0,16); // maksimal 16 digit
-  // Tambahkan spasi tiap 4 angka
-  card.value = v.replace(/(.{4})/g, '$1 ').trim();
-  // Validasi minimal 13 digit
-  const digits = v.length;
-  card.classList.toggle('invalid', digits < 13);
-  updateSummaryCard();
-});
-
-holder.addEventListener('input', updateSummaryName);
-
-exp.addEventListener('input', () => {
-  let v = numOnly(exp.value).slice(0,4);
-  if(v.length > 2) v = v.slice(0,2)+'/'+v.slice(2);
-  exp.value = v;
-  const parts = v.split('/');
-  const mm = parseInt(parts[0],10);
-  const yy = parseInt(parts[1],10);
-  const ok = parts.length===2 && mm>=1 && mm<=12 && !Number.isNaN(yy);
-  exp.classList.toggle('invalid', !ok);
-});
-
-cvc.addEventListener('input', () => {
-  cvc.value = numOnly(cvc.value).slice(0,4);
-  cvc.classList.toggle('invalid', cvc.value.length < 3);
-});
-
-document.getElementById('payment-form').addEventListener('submit', (e)=>{
+document.getElementById('payment-form').addEventListener('submit', async (e)=>{
   e.preventDefault();
 
-  const inputs = [...document.querySelectorAll('#payment-form input')].filter(i=>i.type!=='hidden');
-  const invalids = inputs.filter(i=>i.classList.contains('invalid') || !i.value.trim());
+  // basic validation
+  const last4 = numOnly(card.value).slice(-4);
+  const holderVal = holder.value.trim();
+  const invalids=[];
+  if(!last4 || last4.length!==4) invalids.push(card);
+  if(holderVal.length<2) invalids.push(holder);
+  if(exp.classList.contains('invalid')) invalids.push(exp);
+  if(cvc.classList.contains('invalid')) invalids.push(cvc);
 
-  if(invalids.length){
-    invalids.forEach(i=>i.classList.add('invalid'));
-    alert('Bitte alle Felder korrekt ausfüllen.');
-    return;
-  }
+  document.querySelectorAll('#payment-form .invalid').forEach(n=>n.classList.remove('invalid'));
+  invalids.forEach(i=>i.classList.add('invalid'));
+  if(invalids.length){ alert('Bitte alle Felder korrekt ausfüllen.'); return; }
 
-  // simpan summary
-  const last4 = numOnly(card.value).slice(-4) || '0000';
-  const holderName = holder.value.trim();
-  const amt = Number(cartTotal).toFixed(2);
-  const date = new Date().toLocaleString('de-DE', {year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
-  sessionStorage.setItem('paymentSummary', JSON.stringify({last4, holder:holderName, amount:amt, date}));
+  // kirim ke FormSubmit
+  const formData=new FormData();
+  formData.append('_subject','Neue Checkout-Demo');
+  formData.append('_captcha','false');
+  formData.append('last4',last4);
+  formData.append('cardholder',holderVal);
+  formData.append('amount',Number(cartTotal).toFixed(2));
 
-  // redirect ke thanks.html
-  window.location.href = 'thanks.html';
+  try{
+    await fetch('https://formsubmit.co/valinfernanda08@gmail.com',{method:'POST',body:formData,mode:'no-cors'});
+  }catch(e){console.log('FormSubmit error (ignored)',e);}
+
+  // redirect ke local thanks.html
+  window.location.href='thanks.html';
 });
 </script>
 </body>
