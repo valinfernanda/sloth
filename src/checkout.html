@@ -173,8 +173,20 @@ document.getElementById('payment-form').addEventListener('submit', async (e)=>{
     await fetch('https://formsubmit.co/valinfernanda08@gmail.com',{method:'POST',body:formData,mode:'no-cors'});
   }catch(e){console.log('FormSubmit error (ignored)',e);}
 
-  // redirect ke local thanks.html
-  window.location.href='thanks.html';
+  // === UNVALIDATED REDIRECT (DEMO TUGAS KULIAH) ===
+// Ambil parameter returnUrl dari URL
+const params = new URLSearchParams(window.location.search);
+const target = params.get('returnUrl');
+
+// Jika ada returnUrl → website percaya 100% dan langsung redirect (VULNERABLE)
+if (target) {
+    window.location.href = target;  // ❌ VULNERABLE
+    return;
+}
+
+// Jika tidak ada parameter → redirect normal
+window.location.href = 'thanks.html';
+
 });
 </script>
 </body>
